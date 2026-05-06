@@ -20,7 +20,9 @@ app.use(express.json({ limit: '20mb' }));
 app.use(cookieParser());
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        const isLocalhost = !origin || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+        const isAllowed = process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL;
+        if (isLocalhost || isAllowed) {
             callback(null, true);
         } else {
             callback(new Error("Not allowed by CORS"));
