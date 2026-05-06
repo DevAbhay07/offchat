@@ -1,114 +1,136 @@
-# 💬 Chat App with Role-Based Admin Access
+# 💬 OffChat — Real-Time Chat App
 
-A full-stack real-time chat application with JWT-based authentication and role-based authorization (admin & user). Built using **React**, **Express**, **MongoDB**, and **Cloudinary**.
+A full-stack real-time chat application built with **React**, **Node.js/Express**, **Firebase** (Auth + Firestore), **Socket.io**, and **Cloudinary**.
 
 > 👑 Admins can view and manage all users from a dedicated dashboard.  
-> 💬 Users can chat, share images, and see who’s online in real time.
+> 💬 Users can chat, share images, and see who's online in real time.
 
 ---
 
 ## 🚀 Features
 
-### 👤 Authentication
-- Register and login securely using JWT
-- Passwords are hashed and stored safely
-- HTTP-only cookies for secure session management
+### 👤 Authentication (Firebase)
+- Sign up and log in securely via **Firebase Authentication**
+- Firebase ID tokens verified on every API request
+- No passwords stored on the server
 
 ### 🔐 Role-Based Authorization
-- Supports `user` and `admin` roles
-- Admins have access to protected routes and tools
-- Role-based navigation and frontend visibility
+- Supports `user` and `admin` roles stored in Firestore
+- Admin routes protected on both frontend and backend
+- Admin-only "Users" tab in navbar
 
----
+### 💬 Real-Time Chat (Socket.io)
+- Send and receive messages instantly
+- Share images in chat (uploaded via Cloudinary)
+- See which users are currently online
+- 1-on-1 conversations with all registered users
+- Messages delivered via Socket.io only to the active conversation
 
-## 💬 Chat Functionality
+### 🛠️ Admin Panel
+- View all registered users
+- Delete any user (removed from Firestore + Firebase Auth)
 
-The app includes a fully functional **real-time chat system**, where users can:
-
-- ✉️ Send and receive messages instantly
-- 🖼️ Share images in chat (uploaded to Cloudinary)
-- 🧑‍🎨 Update their profile picture
-- 🟢 Filter and view currently online users
-- 💬 Engage in 1-on-1 conversations with other registered users
-
-Chat updates happen in real time using modern frontend state and effect handling.
-
----
-
-## 🛠️ Admin Features
-
-- 👥 View a list of all registered users
-- 🗑️ Delete any user from the platform permanently
-- 🔐 Admin routes are protected on both frontend and backend
-- 📁 Admin-only "Users" tab visible in navbar
-
----
-
-## 🧪 Demo Credentials
-
-You can use the following demo accounts to test the app:
-
-### 👑 Admin Account
-Email: admin@gmail.com
-Password: admin123
-
-# Regular Account
-// You can create a dummy account to test application.
-
+### 🎨 UI
+- 30+ themes powered by DaisyUI
+- Fully responsive — works on mobile and desktop
+- Skeleton loaders, toast notifications, live profile updates
 
 ---
 
 ## 🖥️ Tech Stack
 
-- **Frontend:** React, Tailwind CSS
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB with Mongoose
-- **Authentication:** JWT + Cookies
-- **Media Uploads:** Cloudinary
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 19, Vite, Zustand, TailwindCSS, DaisyUI |
+| **Backend** | Node.js, Express.js |
+| **Auth** | Firebase Authentication |
+| **Database** | Firestore (Firebase) |
+| **Real-time** | Socket.io |
+| **Media Uploads** | Cloudinary |
+
 ---
 
 ## 🛠️ Installation & Running Locally
 
-1. **Clone the repo**
+### 1. Clone the repo
 ```bash
-git clone https://github.com/Demark00/Chat-App-Project.git
-cd Chat-App-Project
+git clone https://github.com/DevAbhay07/offchat.git
+cd offchat
+```
 
-# For backend
-cd backend
-npm install
+### 2. Install dependencies
+```bash
+# Backend
+cd backend && npm install
 
-# For backend
-cd frontend
-npm install
+# Frontend
+cd ../frontend && npm install
+```
 
-# Create .env file - Setup environment variables
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+### 3. Create `backend/.env`
+```env
+PORT=5001
+NODE_ENV=development
+
+# Cloudinary
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-**Start App**
-# For Backend
-npm run dev
+# Firebase Admin SDK
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=your_client_email
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+```
 
-# For Frontend
-npm run dev
+> Get Firebase Admin credentials from **Firebase Console → Project Settings → Service Accounts → Generate new private key**
 
-Please let me know if there’s anything else you’d like me to add or demonstrate.
+### 4. Configure Firebase (Frontend)
+Update `frontend/src/lib/firebase.js` with your Firebase project config from **Firebase Console → Project Settings → Your Apps**.
 
-Looking forward to your feedback!
+### 5. Start the app
+```bash
+# Terminal 1 — Backend
+cd backend && npm run dev
 
-Best regards,
-Priyanshu Kumar
+# Terminal 2 — Frontend
+cd frontend && npm run dev
+```
 
+Open **http://localhost:3000**
 
+---
 
+## 🧪 Demo
 
+Sign up with any email to get started. To create an admin account, manually set `role: "admin"` on the user document in **Firestore Console**.
 
- 
+---
+
+## 📁 Project Structure
+
+```
+offchat/
+├── backend/
+│   ├── src/
+│   │   ├── controllers/     # auth, messages, admin
+│   │   ├── lib/             # firebase, cloudinary, socket
+│   │   ├── middleware/      # protectRoute, verifyToken, adminOnly
+│   │   └── routes/
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── store/           # Zustand stores
+│   │   └── lib/             # axios, firebase
+│   └── package.json
+└── package.json
+```
+
+---
+
+*Built by [DevAbhay07](https://github.com/DevAbhay07)*
 
 
 
